@@ -1,35 +1,34 @@
 from image import *
 import image
 
-# Load the input image
-img = image.Image("butterfly_3.ppm")
-width = img.getWidth()
-height = img.getHeight()
+# Load original butterfly image
+org_img = image.Image("butterfly_3.ppm")
+width = org_img.getWidth()
+height = org_img.getHeight()
 print(width, height)
-# Create a window to display both images (original + flipped)
-win = image.ImageWin(400, 440,"Vertical and Horizontal Flip")
 
-# Display the original image at the top
-img.draw(win)
+#creating window with double height to fit both images accordingly
+window = image.ImageWin(width, height*2,"Vertical and Horizontal Flip")
 
-# Create a new empty image for the flipped result
-flipped_img = image.EmptyImage(width, height)
+# Display original image
+org_img.draw(window)
 
-# Partition: Left half -> vertical flip, Right half -> horizontal flip
+# Create blank image for manipulations
+flip_img = image.EmptyImage(width, height)
+
+# flipping left have vertically and right half horizontally
 for y in range(height):
     for x in range(width):
-        # Left half: vertical flip (mirror across vertical axis)
+        # Left half
         if x < width // 2:
-            flipped_pixel = img.getPixel(width // 2 - x - 1, y)
-        # Right half: horizontal flip (mirror across horizontal axis)
+            flipped_pixel = org_img.getPixel(width // 2 - x - 1, y)
+        # Right half
         else:
-            flipped_pixel = img.getPixel(x, height - y - 1)
+            flipped_pixel = org_img.getPixel(x, height - y - 1)
 
-        flipped_img.setPixel(x, y, flipped_pixel)
+        flip_img.setPixel(x, y, flipped_pixel)
 
-# Draw the flipped image at the bottom of the window
-flipped_img.setPosition(0, height)
-flipped_img.draw(win)
-
-# Wait for a mouse click to close the window
-win.exitOnClick()
+# Draw the flipped image at the bottom of the image window
+flip_img.setPosition(0, height)
+flip_img.draw(window)
+window.exitOnClick()
