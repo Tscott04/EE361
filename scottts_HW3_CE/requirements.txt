@@ -1,4 +1,0 @@
-firebase-admin
-flask
-scikit-learn
-joblib
